@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
-import { db } from '../lib/db';
+import { supabase } from '../../lib/supabase';
+import { db } from '../../lib/db';
 import { CheckCircle2, Circle, Lock, ChevronDown, ChevronUp, Sparkles, Trophy } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 export function RoadmapView() {
   const [roadmap, setRoadmap] = useState<any>(null);
@@ -15,16 +15,21 @@ export function RoadmapView() {
 
   const fetchRoadmap = async () => {
     const { data: { user } } = await supabase.auth.getUser();
+    // Assuming App.tsx handles redirection if no user is found,
+    // so we can proceed directly if a user is present.
     if (user) {
       const data = await db.getActiveRoadmap(user.id);
-      if (!data) {
-        navigate('/onboarding');
-      } else {
+      if (data) {
         setRoadmap(data);
         // Expand the first unlocked, incomplete module
         const active = data.modules.find((m: any) => !m.is_completed && !m.is_locked);
         if (active) setExpandedModule(active.id);
       }
+      setLoading(false);
+    } else {
+      // If for some reason user is null here, and App.tsx didn't redirect,
+      // we should still stop loading and perhaps show a message or redirect.
+      // For now, just stop loading.
       setLoading(false);
     }
   };
@@ -36,7 +41,7 @@ export function RoadmapView() {
   const handleToggleTask = async (taskId: string, currentStatus: boolean, moduleId: string) => {
     try {
       await db.toggleTaskCompletion(taskId, !currentStatus);
-      
+
       // Update local state for immediate feedback
       const updatedRoadmap = { ...roadmap };
       const module = updatedRoadmap.modules.find((m: any) => m.id === moduleId);
@@ -48,7 +53,7 @@ export function RoadmapView() {
       if (allTasksCompleted && !module.is_completed) {
         await db.completeModule(moduleId);
         module.is_completed = true;
-        
+
         // Unlock next module if it exists
         if (module.order_index < updatedRoadmap.modules.length - 1) {
           await db.unlockNextModule(roadmap.id, module.order_index);
@@ -122,11 +127,11 @@ export function RoadmapView() {
               <div className="flex items-center gap-4">
                 <div className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center",
-                  module.is_completed ? "bg-green-100 text-green-600" : 
-                  module.is_locked ? "bg-gray-100 text-gray-400" : "bg-indigo-100 text-indigo-600"
+                  module.is_completed ? "bg-green-100 text-green-600" :
+                    module.is_locked ? "bg-gray-100 text-gray-400" : "bg-indigo-100 text-indigo-600"
                 )}>
-                  {module.is_completed ? <CheckCircle2 className="w-6 h-6" /> : 
-                   module.is_locked ? <Lock className="w-5 h-5" /> : <Sparkles className="w-6 h-6" />}
+                  {module.is_completed ? <CheckCircle2 className="w-6 h-6" /> :
+                    module.is_locked ? <Lock className="w-5 h-5" /> : <Sparkles className="w-6 h-6" />}
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900">{module.title}</h3>

@@ -1,8 +1,20 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
 const apiKey = process.env.GEMINI_API_KEY || "";
+const DEFAULT_MODEL = "gemini-2.0-flash"; // Fallback to a widely available model
+const EXPERIMENTAL_MODEL = "gemini-2.5-flash";
 
 export const ai = new GoogleGenAI({ apiKey });
+
+export interface ChatContext {
+  roadmap: any;
+  progress: number;
+}
+
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
 
 export const roadmapSchema = {
   type: Type.OBJECT,
@@ -36,32 +48,76 @@ export const roadmapSchema = {
   required: ["title", "level", "modules"]
 };
 
-export async function generateRoadmap(goal: string) {
-  const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
-    contents: `Generate a structured learning roadmap for the goal: "${goal}". 
-    The roadmap should be progressive, starting from the current level and moving towards mastery.
-    Break it down into 4-6 modules, each with 2-4 specific tasks.`,
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: roadmapSchema,
-    },
-  });
-
-  return JSON.parse(response.text);
+async function safeGenerateContent(params: any) {
+  try {
+    return await ai.models.generateContent(params);
+  } catch (error: any) {
+    if (params.model === EXPERIMENTAL_MODEL) {
+      console.warn(`Model ${EXPERIMENTAL_MODEL} failed, falling back to ${DEFAULT_MODEL}`);
+      return await ai.models.generateContent({ ...params, model: DEFAULT_MODEL });
+    }
+    throw error;
+  }
 }
 
-export async function chatWithAI(message: string, context: any) {
-  const chat = ai.chats.create({
-    model: "gemini-3-flash-preview",
-    config: {
-      systemInstruction: `You are EduAI, a helpful learning assistant for EduChain. 
-      The user is currently on a learning roadmap: ${JSON.stringify(context.roadmap)}.
-      Current progress: ${context.progress}%.
-      Be encouraging, explain concepts clearly, and help solve tasks without just giving away the answers.`,
-    },
-  });
+export async function generateRoadmap(goal: string) {
+  try {
+    const response = await safeGenerateContent({
+      model: EXPERIMENTAL_MODEL,
+      contents: `Generate a structured learning roadmap for the goal: "${goal}". 
+      The roadmap should be progressive, starting from the current level and moving towards mastery.
+      Break it down into 4-6 modules, each with 2-4 specific tasks.`,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: roadmapSchema,
+      },
+    });
 
-  const response = await chat.sendMessage({ message });
-  return response.text;
+    return JSON.parse(response.text);
+  } catch (error) {
+    console.error("Error generating roadmap:", error);
+    throw new Error("I couldn't generate your roadmap right now. Please check your API key or try again later.");
+  }
+}
+
+export async function chatWithAI(message: string, context: ChatContext, history: ChatMessage[] = []) {
+  try {
+    // Construct the contents including history
+    // The format expected by generateContent for multi-turn is an array of Content objects
+    const contents = [
+      ...history.map(msg => ({
+        role: msg.role === 'assistant' ? 'model' : 'user', // SDK typically uses 'model' and 'user'
+        parts: [{ text: msg.content }]
+      })),
+      { role: 'user', parts: [{ text: message }] }
+    ];
+
+    const response = await safeGenerateContent({
+      model: EXPERIMENTAL_MODEL,
+      contents,
+      config: {
+        systemInstruction: `You are EduAI, a helpful learning assistant for EduChain. 
+        The user is currently on a learning roadmap: ${JSON.stringify(context.roadmap)}.
+        Current progress: ${context.progress}%.
+        Be encouraging, explain concepts clearly, and help solve tasks without just giving away the answers.`,
+      },
+    });
+
+    return response.text;
+  } catch (error) {
+    console.error("Error in chatWithAI:", error);
+    try {
+      // Fallback to simple completion if multi-turn fails or model is unavailable
+      const response = await ai.models.generateContent({
+        model: DEFAULT_MODEL,
+        contents: [{ role: 'user', parts: [{ text: message }] }],
+        config: {
+          systemInstruction: `You are EduAI, a helpful learning assistant for EduChain.`,
+        },
+      });
+      return response.text;
+    } catch (fallbackError) {
+      throw new Error("EduAI is currently offline. Please try again in a moment.");
+    }
+  }
 }

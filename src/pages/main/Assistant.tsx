@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { supabase } from '../lib/supabase';
-import { db } from '../lib/db';
-import { chatWithAI } from '../lib/gemini';
+import { supabase } from '../../lib/supabase';
+import { db } from '../../lib/db';
+import { chatWithAI } from '../../lib/gemini';
 import { Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'motion/react';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -41,7 +41,8 @@ export function Assistant() {
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
+    setMessages(newMessages);
     setLoading(true);
 
     try {
@@ -49,11 +50,12 @@ export function Assistant() {
       const completedTasks = roadmap?.modules.reduce((acc: number, m: any) => acc + m.tasks.filter((t: any) => t.is_completed).length, 0) || 0;
       const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
-      const response = await chatWithAI(userMessage, { roadmap, progress });
+      // Pass the previous messages as history (excluding the very last one we just added)
+      const response = await chatWithAI(userMessage, { roadmap, progress }, messages);
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error chatting with AI:', error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "I'm sorry, I encountered an error. Please try again later." }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: error.message || "I'm sorry, I encountered an error. Please try again later." }]);
     } finally {
       setLoading(false);
     }
@@ -102,8 +104,8 @@ export function Assistant() {
               </div>
               <div className={cn(
                 "p-4 rounded-2xl text-sm leading-relaxed",
-                msg.role === 'user' 
-                  ? "bg-indigo-600 text-white rounded-tr-none" 
+                msg.role === 'user'
+                  ? "bg-indigo-600 text-white rounded-tr-none"
                   : "bg-gray-100 text-gray-800 rounded-tl-none"
               )}>
                 <div className="markdown-body prose prose-sm max-w-none">

@@ -12,6 +12,19 @@ const navItems = [
 ];
 
 export function Sidebar() {
+  const [isOffline, setIsOffline] = React.useState(!navigator.onLine);
+
+  React.useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
   };
@@ -34,7 +47,7 @@ export function Sidebar() {
               cn(
                 "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-indigo-50 text-indigo-700"
+                  ? "bg-indigo-50 text-indigo-700 font-bold"
                   : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
               )
             }
@@ -45,10 +58,16 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t border-gray-100 flex flex-col gap-4">
+        {isOffline && (
+          <div className="bg-amber-50 px-3 py-2 rounded-xl flex items-center gap-2 border border-amber-100 animate-pulse">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            <span className="text-[10px] font-black text-amber-800 uppercase tracking-widest">Offline Mode</span>
+          </div>
+        )}
         <button
           onClick={handleSignOut}
-          className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-sm font-medium text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
+          className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-sm font-medium text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors"
         >
           <LogOut className="w-5 h-5" />
           Sign Out
