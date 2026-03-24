@@ -1,54 +1,41 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- SEO Meta Tags -->
-    <title>Upvia - Platform Belajar AI Personalisasi & Roadmap Pintar</title>
-    <meta name="description" content="Tingkatkan karir Anda dengan Upvia. Nikmati roadmap belajar personalisasi berbasis AI, materi interaktif, dan pembangunan portofolio otomatis untuk pertumbuhan berkelanjutan." />
-    <meta name="keywords" content="AI learning, roadmap AI, belajar mandiri, Upvia, EduChain, personalisasi pendidikan, kursus online AI" />
-    <meta name="author" content="Upvia AI Team" />
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/logo.ico" /> <!-- gunakan ico/png kecil -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upvia - AI Personalized Learning</title>
+  <meta name="description" content="Optimize your learning journey with AI-driven roadmaps and interactive exercises." />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://upvia.vercel.app/" />
-    <meta property="og:title" content="Upvia - AI-Powered Personalized Learning" />
-    <meta property="og:description" content="Optimize your learning journey with AI-driven roadmaps and interactive exercises." />
-    <meta property="og:image" content="/logo.svg" />
+  <!-- OG & Twitter minimal -->
+  <meta property="og:title" content="Upvia - AI Personalized Learning" />
+  <meta property="og:description" content="Optimize your learning journey with AI-driven roadmaps and interactive exercises." />
+  <meta property="og:image" content="/logo.ico" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:image" content="/logo.ico" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://upvia.vercel.app/" />
-    <meta property="twitter:title" content="Upvia - AI-Powered Personalized Learning" />
-    <meta property="twitter:description" content="Optimize your learning journey with AI-driven roadmaps and interactive exercises." />
-    <meta property="twitter:image" content="/logo.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#15803d" />
+</head>
+<body>
+  <div id="root"></div>
 
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#15803d" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // Force Clear Service Workers & Cache on Load
+  <script type="module" defer src="/src/main.tsx"></script>
+
+  <script>
+    // Auto clear cache & service workers (development mode)
+    (async function(){
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          for (let registration of registrations) {
-            registration.unregister();
-            console.log('Service Worker Unregistered');
-          }
-        });
+        const regs = await navigator.serviceWorker.getRegistrations();
+        regs.forEach(r => r.unregister());
+        console.log('SW unregistered');
       }
-      
-      // Clear Cache Storage if any (PWA stuff)
       if (window.caches) {
-        caches.keys().then(function(names) {
-          for (let name of names) caches.delete(name);
-        });
+        const keys = await caches.keys();
+        keys.forEach(k => caches.delete(k));
+        console.log('Caches cleared');
       }
-    </script>
-  </body>
+    })();
+  </script>
+</body>
 </html>
-
