@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { navLinks } from '../constants';
-import logo from '../../../assets/UPVIALOGO.png';
+import logo from '../../../assets/UPVIALOGO.svg';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -17,7 +17,7 @@ export const Navbar = () => {
               <img src={logo} alt="Upvia Logo" className="w-12 h-12 object-contain transition-transform group-hover:scale-105" style={{ imageRendering: 'crisp-edges' }} />
               <div className="absolute inset-0 bg-green-400/10 blur-xl rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </div>
-            <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">Upvia</span>
+            {/* <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">Upvia</span> */}
           </Link>
         </div>
 

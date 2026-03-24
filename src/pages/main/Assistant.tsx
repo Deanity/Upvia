@@ -14,7 +14,7 @@ interface Message {
 
 export function Assistant() {
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: "Hello! I'm EduAI, your personalized learning assistant. How can I help you with your roadmap today?" }
+    { role: 'assistant', content: "Halo! Saya Upvia AI, asisten pembelajaran pribadi Anda. Ada yang bisa saya bantu dengan peta jalan belajar Anda hari ini?" }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -62,24 +62,24 @@ export function Assistant() {
   };
 
   return (
-    <div className="h-[calc(100vh-8rem)] flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-      <header className="p-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+    <div className="h-[calc(100vh-10rem)] flex flex-col glass-card bg-white/70 backdrop-blur-md rounded-3xl border border-white/60 shadow-xl overflow-hidden">
+      <header className="p-6 border-b border-green-100 bg-white/50 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="bg-indigo-600 p-2 rounded-lg">
-            <Bot className="text-white w-5 h-5" />
+          <div className="bg-[hsl(var(--brand-primary))] p-2.5 rounded-xl shadow-lg shadow-green-500/20 text-white">
+            <Bot className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="font-bold text-gray-900">EduAI Assistant</h2>
-            <p className="text-xs text-green-600 font-medium flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              Online & Context-Aware
+            <h2 className="font-black text-gray-900 tracking-tight">Asisten Upvia AI</h2>
+            <p className="text-[10px] text-green-600 font-bold uppercase tracking-widest flex items-center gap-1.5 mt-0.5">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse border-2 border-white" />
+              Online & Siap Membantu
             </p>
           </div>
         </div>
         {roadmap && (
           <div className="hidden md:block text-right">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Current Goal</p>
-            <p className="text-sm font-bold text-indigo-600">{roadmap.title}</p>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Tujuan Saat Ini</p>
+            <p className="text-sm font-bold text-[hsl(var(--brand-primary))]">{roadmap.title}</p>
           </div>
         )}
       </header>
@@ -97,18 +97,18 @@ export function Assistant() {
               )}
             >
               <div className={cn(
-                "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
-                msg.role === 'user' ? "bg-gray-100 text-gray-600" : "bg-indigo-100 text-indigo-600"
+                "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm",
+                msg.role === 'user' ? "bg-white border border-gray-100 text-gray-600" : "bg-green-50 border border-green-100 text-[hsl(var(--brand-primary))]"
               )}>
                 {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
               </div>
               <div className={cn(
-                "p-4 rounded-2xl text-sm leading-relaxed",
+                "p-5 rounded-3xl text-sm leading-relaxed shadow-sm",
                 msg.role === 'user'
-                  ? "bg-indigo-600 text-white rounded-tr-none"
-                  : "bg-gray-100 text-gray-800 rounded-tl-none"
+                  ? "bg-[hsl(var(--brand-primary))] text-white rounded-tr-none"
+                  : "bg-white border border-green-50 text-gray-800 rounded-tl-none"
               )}>
-                <div className="markdown-body prose prose-sm max-w-none">
+                <div className="markdown-body prose prose-sm max-w-none prose-emerald">
                   <ReactMarkdown>{msg.content}</ReactMarkdown>
                 </div>
               </div>
@@ -117,12 +117,12 @@ export function Assistant() {
         </AnimatePresence>
         {loading && (
           <div className="flex gap-4 max-w-[85%]">
-            <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-green-50 border border-green-100 text-[hsl(var(--brand-primary))] flex items-center justify-center flex-shrink-0 shadow-sm">
               <Bot className="w-5 h-5" />
             </div>
-            <div className="bg-gray-100 p-4 rounded-2xl rounded-tl-none flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
-              <span className="text-sm text-gray-500">EduAI is thinking...</span>
+            <div className="bg-white border border-green-50 p-5 rounded-3xl rounded-tl-none flex items-center gap-3 shadow-sm">
+              <Loader2 className="w-5 h-5 animate-spin text-[hsl(var(--brand-primary))]" />
+              <span className="text-sm text-gray-500 font-medium">Upvia AI sedang berpikir...</span>
             </div>
           </div>
         )}
@@ -134,16 +134,16 @@ export function Assistant() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask me anything about your roadmap..."
-            className="w-full pl-4 pr-12 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all shadow-sm"
+            placeholder="Tanya saya apa saja tentang peta jalan belajar Anda..."
+            className="w-full pl-6 pr-14 py-4 bg-white border border-green-100 rounded-2xl focus:ring-2 focus:ring-[hsl(var(--brand-primary))] focus:border-[hsl(var(--brand-primary))] outline-none transition-all shadow-sm font-medium"
             disabled={loading}
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-[hsl(var(--brand-primary))] text-white rounded-xl hover:shadow-lg hover:shadow-green-500/20 transition-all disabled:opacity-50"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-5 h-5" />
           </button>
         </div>
         <p className="text-[10px] text-gray-400 mt-2 text-center uppercase tracking-widest font-bold">

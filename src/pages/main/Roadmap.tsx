@@ -101,10 +101,10 @@ export function RoadmapView() {
           <button
             onClick={handleCompleteRoadmap}
             disabled={completing}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all flex items-center gap-2 shadow-lg shadow-indigo-200"
+            className="px-6 py-3 bg-[hsl(var(--brand-primary))] text-white rounded-xl font-bold hover:shadow-lg hover:shadow-green-500/20 transition-all flex items-center gap-2"
           >
             <Trophy className="w-5 h-5" />
-            {completing ? 'Finalizing...' : 'Complete Roadmap'}
+            {completing ? 'Memproses...' : 'Selesaikan Peta Jalan'}
           </button>
         )}
       </header>
@@ -114,9 +114,9 @@ export function RoadmapView() {
           <div
             key={module.id}
             className={cn(
-              "bg-white rounded-2xl border transition-all overflow-hidden",
-              module.is_locked ? "border-gray-100 opacity-60" : "border-gray-200 shadow-sm",
-              expandedModule === module.id && "ring-2 ring-indigo-500 ring-offset-0 border-transparent"
+              "glass-card bg-white/50 rounded-2xl border transition-all overflow-hidden",
+              module.is_locked ? "border-gray-100 opacity-60" : "border-white/60 shadow-sm",
+              expandedModule === module.id && "ring-2 ring-[hsl(var(--brand-primary))] ring-opacity-20 border-transparent"
             )}
           >
             <button
@@ -126,16 +126,16 @@ export function RoadmapView() {
             >
               <div className="flex items-center gap-4">
                 <div className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center",
-                  module.is_completed ? "bg-green-100 text-green-600" :
-                    module.is_locked ? "bg-gray-100 text-gray-400" : "bg-indigo-100 text-indigo-600"
+                  "w-10 h-10 rounded-full flex items-center justify-center border",
+                  module.is_completed ? "bg-green-100 border-green-200 text-green-600" :
+                    module.is_locked ? "bg-gray-100 border-gray-200 text-gray-400" : "bg-green-50 border-green-100 text-[hsl(var(--brand-primary))]"
                 )}>
                   {module.is_completed ? <CheckCircle2 className="w-6 h-6" /> :
                     module.is_locked ? <Lock className="w-5 h-5" /> : <Sparkles className="w-6 h-6" />}
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900">{module.title}</h3>
-                  <p className="text-sm text-gray-500">{module.tasks.length} Tasks</p>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{module.tasks.length} Tugas</p>
                 </div>
               </div>
               {!module.is_locked && (
@@ -163,7 +163,7 @@ export function RoadmapView() {
                             onClick={() => handleToggleTask(task.id, task.is_completed, module.id)}
                             className={cn(
                               "mt-0.5 transition-colors",
-                              task.is_completed ? "text-green-500" : "text-gray-300 hover:text-indigo-400"
+                              task.is_completed ? "text-green-500" : "text-gray-300 hover:text-[hsl(var(--brand-primary))]"
                             )}
                           >
                             {task.is_completed ? <CheckCircle2 className="w-6 h-6" /> : <Circle className="w-6 h-6" />}
@@ -175,11 +175,11 @@ export function RoadmapView() {
                             )}>
                               {task.title}
                             </h4>
-                            <p className="text-sm text-gray-600 mt-1">{task.description}</p>
+                            <p className="text-sm text-gray-500 mt-1 leading-relaxed">{task.description}</p>
                             {task.challenge && !task.is_completed && (
-                              <div className="mt-3 p-3 bg-amber-50 rounded-lg border border-amber-100">
-                                <p className="text-xs font-bold text-amber-800 uppercase tracking-widest mb-1">Challenge</p>
-                                <p className="text-sm text-amber-900">{task.challenge}</p>
+                              <div className="mt-3 p-4 bg-amber-50 rounded-xl border border-amber-100">
+                                <p className="text-[10px] font-black text-amber-800 uppercase tracking-widest mb-1">Tantangan</p>
+                                <p className="text-sm text-amber-900 font-medium">{task.challenge}</p>
                               </div>
                             )}
                           </div>

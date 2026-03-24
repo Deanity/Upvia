@@ -1,5 +1,5 @@
 import { Globe, Users } from 'lucide-react';
-import logo from '../../../assets/UPVIALOGO.png';
+import logo from '../../../assets/UPVIALOGO.svg';
 
 export const Footer = () => {
   return (
@@ -7,7 +7,7 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex items-center gap-2">
           <img src={logo} alt="Upvia Logo" className="w-10 h-10 object-contain" />
-          <span className="text-2xl font-bold tracking-tight">Upvia</span>
+          {/* <span className="text-2xl font-bold tracking-tight">Upvia</span> */}
         </div>
         
         <div className="flex gap-8 text-sm font-medium text-gray-500">
