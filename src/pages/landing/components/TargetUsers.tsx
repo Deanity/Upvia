@@ -4,11 +4,11 @@ import { targetUsers } from '../constants';
 
 export const TargetUsers = () => {
   return (
-    <section id="users" className="py-24 px-6 soft-green-gradient">
+    <section id="users" className="py-24 px-6 bg-gradient-to-br from-green-50/50 to-white dark:from-gray-900 dark:to-black transition-colors">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 text-[hsl(var(--brand-dark))]">
+        <div className="text-center mb-16 text-[hsl(var(--brand-dark))] dark:text-white">
           <h2 className="text-3xl md:text-4xl font-extrabold mb-4">Designed for Every Learner</h2>
-          <p className="text-green-800/60 max-w-2xl mx-auto">Tailored experiences for different educational needs and goals.</p>
+          <p className="text-green-800/60 dark:text-green-400/60 max-w-2xl mx-auto">Tailored experiences for different educational needs and goals.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {targetUsers.map((user, idx) => (
@@ -18,13 +18,13 @@ export const TargetUsers = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white/40 backdrop-blur-md p-6 rounded-3xl border border-white/50 hover:bg-white/60 transition-colors group"
+              className="bg-white/40 dark:bg-gray-800/40 backdrop-blur-md p-6 rounded-3xl border border-white/50 dark:border-white/5 hover:bg-white/60 dark:hover:bg-gray-800/60 transition-colors group"
             >
-              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-[hsl(var(--brand-primary))] mb-6 shadow-sm group-hover:rotate-3 transition-transform">
+              <div className="w-16 h-16 bg-white dark:bg-gray-700 rounded-2xl flex items-center justify-center text-[hsl(var(--brand-primary))] mb-6 shadow-sm group-hover:rotate-3 transition-transform transition-colors">
                 {user.icon}
               </div>
-              <h3 className="font-bold text-lg mb-2">{user.type}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{user.description}</p>
+              <h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-white">{user.type}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{user.description}</p>
             </motion.div>
           ))}
         </div>

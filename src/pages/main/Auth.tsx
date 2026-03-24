@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Mail, Eye, EyeOff, User, ArrowLeft, Lock } from 'lucide-react';
-import { FaGoogle, FaApple } from 'react-icons/fa';
+import { SettingsFab } from '../../components/SettingsFab';
+import { Mail, Eye, EyeOff, User, ArrowLeft, Lock, Sparkles, CheckCircle2 } from 'lucide-react';
+import { FaGoogle } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'motion/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/UPVIALOGO.svg';
 
 export function Auth() {
@@ -14,6 +15,9 @@ export function Auth() {
   const [loading, setLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [showSuccess, setShowSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleOAuth = async (provider: 'google' | 'apple') => {
     try {
@@ -46,24 +50,30 @@ export function Auth() {
           }
         });
         if (error) throw error;
-        alert('Cek email Anda untuk link konfirmasi!');
+        setShowSuccess(true);
+        setTimeout(() => {
+          setIsSignUp(false);
+          setShowSuccess(false);
+        }, 3000);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        setShowSuccess(true);
+        setTimeout(() => navigate('/'), 2000);
       }
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      if (!showSuccess) setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex bg-[hsl(var(--brand-muted))] font-sans selection:bg-green-100 relative overflow-hidden">
+    <div className="min-h-screen flex bg-[hsl(var(--brand-muted))] dark:bg-gray-950 selection:bg-green-100 dark:selection:bg-green-500/30 text-gray-900 dark:text-white relative overflow-hidden transition-colors duration-300">
       {/* Background Blobs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-green-200/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-200/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-green-200/20 dark:bg-green-500/5 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-200/20 dark:bg-emerald-500/5 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
       </div>
 
       {/* Top-Center Alert */}
@@ -74,7 +84,7 @@ export function Auth() {
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="glass-card bg-white/90 border-red-100 p-4 rounded-2xl flex items-center gap-3 shadow-xl ring-1 ring-red-500/10"
+              className="glass-card bg-white/90 dark:bg-gray-900/90 border-red-100 dark:border-red-500/20 p-4 rounded-2xl flex items-center gap-3 shadow-xl ring-1 ring-red-500/10 transition-colors"
             >
               <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center shrink-0">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
@@ -94,9 +104,9 @@ export function Auth() {
       </div>
 
       {/* Back button */}
-      <Link to="/" className="fixed top-6 left-6 z-50 flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-[hsl(var(--brand-primary))] transition-colors group">
+      <Link to="/" className="fixed top-6 left-6 z-50 flex items-center gap-2 text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-[hsl(var(--brand-primary))] transition-colors group">
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-        Kembali ke Beranda
+        Back to Home
       </Link>
 
       {/* Left Side: Auth Form */}
@@ -112,11 +122,11 @@ export function Auth() {
           </div>
 
           <header className="mb-8">
-            <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-3">
-              {isSignUp ? 'Mulai Sekarang.' : 'Selamat Datang!'}
+            <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-3">
+              {isSignUp ? 'Get Started.' : 'Welcome Back!'}
             </h1>
-            <p className="text-sm text-gray-500 font-medium leading-relaxed">
-              Sederhanakan perjalanan belajar Anda dengan <span className="text-gray-900 font-bold">Upvia</span>. {isSignUp ? 'Daftar sekarang secara gratis.' : 'Masuk untuk melanjutkan pembelajaran Anda.'}
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+              Simplify your learning journey with <span className="text-gray-900 dark:text-white font-bold">Upvia</span>. {isSignUp ? 'Sign up now for free.' : 'Sign in to continue your learning journey.'}
             </p>
           </header>
 
@@ -135,14 +145,14 @@ export function Auth() {
                       <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 z-10">
                         <User className="w-5 h-5" />
                       </div>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Nama Lengkap"
-                        className="w-full pl-14 pr-5 py-4 bg-white/50 backdrop-blur-sm border border-white rounded-2xl focus:border-[hsl(var(--brand-primary))] focus:ring-0 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400 text-sm premium-shadow"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                      />
+                  <input
+                    type="text"
+                    required
+                    placeholder="Full Name"
+                    className="w-full pl-14 pr-5 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-white dark:border-white/5 rounded-2xl focus:border-[hsl(var(--brand-primary))] focus:ring-0 outline-none transition-all font-medium text-gray-900 dark:text-white placeholder:text-gray-400 text-sm premium-shadow"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
                     </div>
                   </motion.div>
                 )}
@@ -155,8 +165,8 @@ export function Auth() {
                 <input
                   type="email"
                   required
-                  placeholder="Alamat Email"
-                  className="w-full pl-14 pr-5 py-4 bg-white/50 backdrop-blur-sm border border-white rounded-2xl focus:border-[hsl(var(--brand-primary))] focus:ring-0 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400 text-sm premium-shadow"
+                  placeholder="Email Address"
+                  className="w-full pl-14 pr-5 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-white dark:border-white/5 rounded-2xl focus:border-[hsl(var(--brand-primary))] focus:ring-0 outline-none transition-all font-medium text-gray-900 dark:text-white placeholder:text-gray-400 text-sm premium-shadow"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -169,8 +179,8 @@ export function Auth() {
                 <input
                   type={showPassword ? "text" : "password"}
                   required
-                  placeholder="Kata Sandi"
-                  className="w-full pl-14 pr-14 py-4 bg-white/50 backdrop-blur-sm border border-white rounded-2xl focus:border-[hsl(var(--brand-primary))] focus:ring-0 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400 text-sm premium-shadow"
+                  placeholder="Password"
+                  className="w-full pl-14 pr-14 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-white dark:border-white/5 rounded-2xl focus:border-[hsl(var(--brand-primary))] focus:ring-0 outline-none transition-all font-medium text-gray-900 dark:text-white placeholder:text-gray-400 text-sm premium-shadow"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -187,7 +197,7 @@ export function Auth() {
             {!isSignUp && (
               <div className="flex justify-end px-2">
                 <button type="button" className="text-xs font-bold text-[hsl(var(--brand-primary))] hover:underline">
-                  Lupa Kata Sandi?
+                  Forgot Password?
                 </button>
               </div>
             )}
@@ -195,27 +205,26 @@ export function Auth() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 btn-primary rounded-2xl font-bold text-base active:scale-[0.98] disabled:opacity-70 shadow-lg shadow-green-100"
+              className="w-full py-4 btn-primary rounded-2xl font-bold text-base active:scale-[0.98] disabled:opacity-70 shadow-lg shadow-green-100 dark:shadow-black/20"
             >
-              {loading ? 'Memproses...' : isSignUp ? 'Daftar' : 'Masuk'}
+              {loading ? 'Processing...' : isSignUp ? 'Sign Up' : 'Sign In'}
             </button>
 
             <div className="relative py-4 flex items-center">
               <div className="flex-grow border-t border-gray-200"></div>
-              <span className="flex-shrink mx-4 text-gray-400 text-[10px] font-bold uppercase tracking-widest">atau lanjut dengan</span>
+              <span className="flex-shrink mx-4 text-gray-400 text-[10px] font-bold uppercase tracking-widest">or continue with</span>
               <div className="flex-grow border-t border-gray-200"></div>
             </div>
 
             <div className="flex justify-center gap-4">
               {[
                 { icon: FaGoogle, name: 'Google', provider: 'google' as const },
-                { icon: FaApple, name: 'Apple', provider: 'apple' as const },
               ].map((social) => (
                 <button
                   key={social.name}
                   type="button"
                   onClick={() => handleOAuth(social.provider)}
-                  className="w-14 h-14 rounded-2xl border border-white bg-white/50 backdrop-blur-sm flex items-center justify-center text-gray-900 hover:bg-white hover:scale-105 transition-all active:scale-95 shadow-sm premium-shadow"
+                  className="w-14 h-14 rounded-2xl border border-white dark:border-white/5 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm flex items-center justify-center text-gray-900 dark:text-white hover:bg-white dark:hover:bg-gray-700 hover:scale-105 transition-all active:scale-95 shadow-sm premium-shadow"
                 >
                   <social.icon className="w-6 h-6" />
                 </button>
@@ -224,13 +233,13 @@ export function Auth() {
           </form>
 
           <footer className="mt-12 text-center text-gray-500 text-sm font-medium">
-            {isSignUp ? 'Sudah punya akun?' : 'Belum punya akun?'}
+            {isSignUp ? 'Already have an account?' : "Don't have an account?"}
             {' '}
             <button
               onClick={() => setIsSignUp(!isSignUp)}
               className="text-[hsl(var(--brand-primary))] font-bold hover:underline"
             >
-              {isSignUp ? 'Masuk sekarang' : 'Daftar sekarang'}
+              {isSignUp ? 'Sign in now' : 'Sign up now'}
             </button>
           </footer>
         </motion.div>
@@ -238,9 +247,9 @@ export function Auth() {
 
       {/* Right Side: Illustrative Panel */}
       <div className="hidden lg:flex lg:w-[55%] p-6 items-stretch">
-        <div className="flex-1 bg-white rounded-[2.5rem] p-10 flex flex-col items-center justify-center relative overflow-hidden shadow-sm border border-green-50">
+        <div className="flex-1 bg-white dark:bg-gray-900 rounded-[3rem] p-10 flex flex-col items-center justify-center relative overflow-hidden shadow-sm border border-green-50 dark:border-white/5 transition-colors">
           {/* Background Blobs for depth */}
-          <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-green-100/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-green-100/30 dark:bg-green-500/5 rounded-full blur-3xl transition-colors"></div>
           
           <div className="relative w-full max-w-md aspect-square flex items-center justify-center mb-10">
             {/* Person Meditation Mockup */}
@@ -275,19 +284,19 @@ export function Auth() {
               initial={{ x: -20, y: 30 }}
               animate={{ y: [30, 20, 30] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className="absolute left-6 bottom-16 bg-white p-5 rounded-[2rem] border-2 border-[#2D5A27] shadow-[6px_6px_0px_0px_#2D5A27] w-48 scale-95 z-20"
+              className="absolute left-6 bottom-16 bg-white dark:bg-gray-900 p-5 rounded-[2rem] border-2 border-[#2D5A27] shadow-[6px_6px_0px_0px_#2D5A27] dark:shadow-[6px_6px_0px_0px_rgba(45,90,39,0.5)] w-48 scale-95 z-20"
             >
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h3 className="font-black text-base text-[#2D5A27] leading-tight text-left">Peta Jalan AI</h3>
-                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider text-left">12 Modul</p>
+                  <h3 className="font-black text-base text-[#2D5A27] leading-tight text-left">AI Roadmap</h3>
+                  <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider text-left">12 Modules</p>
                 </div>
                 <div className="w-8 h-8 border-[3px] border-[#2D5A27] border-t-[#C1E1C1] rounded-full flex items-center justify-center text-[9px] font-black text-[#2D5A27]">
                   84%
                 </div>
               </div>
               <div className="inline-block px-3 py-1 bg-[#C1E1C1] border-2 border-[#2D5A27] rounded-full text-[10px] font-black uppercase text-[#2D5A27]">
-                Belajar
+                Learning
               </div>
             </motion.div>
           </div>
@@ -298,15 +307,77 @@ export function Auth() {
               <div className="w-5 h-2.5 rounded-full bg-[hsl(var(--brand-primary))]" />
               <div className="w-2.5 h-2.5 rounded-full bg-green-100" />
             </div>
-            <h2 className="text-2xl font-black text-gray-900 leading-tight">
-              Buat proses belajar lebih mudah <br /> dan terorganisir dengan <span className="underline decoration-[hsl(var(--brand-primary))] decoration-[3px] underline-offset-4">Upvia</span>
+            <h2 className="text-2xl font-black text-gray-900 dark:text-white leading-tight">
+              Make learning easier <br /> and more organized with <span className="underline decoration-[hsl(var(--brand-primary))] decoration-[3px] underline-offset-4">Upvia</span>
             </h2>
-            <p className="text-sm text-gray-500 font-medium">
-              Mentor cerdas Anda untuk pertumbuhan berkelanjutan.
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+              Your smart mentor for continuous growth.
             </p>
           </div>
         </div>
       </div>
+      {/* Success Popup */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          >
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-green-900/40 backdrop-blur-xl"
+            />
+            
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
+              className="relative bg-white dark:bg-gray-900 rounded-[3rem] p-12 max-w-sm w-full text-center shadow-2xl border border-green-100 dark:border-white/5 overflow-hidden transition-colors"
+            >
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-400 to-emerald-500" />
+              
+              <div className="relative mb-8 inline-block">
+                <motion.div 
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 bg-green-50 rounded-full scale-150 blur-xl opacity-50"
+                />
+                <div className="w-24 h-24 bg-green-50 rounded-[2.5rem] flex items-center justify-center text-[hsl(var(--brand-primary))] relative z-10 border-4 border-white shadow-lg mx-auto">
+                  <CheckCircle2 className="w-12 h-12" />
+                </div>
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1], opacity: [1, 0.5, 1] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                  className="absolute -top-4 -right-4 w-10 h-10 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-500 border-2 border-white shadow-md"
+                >
+                  <Sparkles className="w-6 h-6" />
+                </motion.div>
+              </div>
+
+              <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">
+                {isSignUp ? 'Perfect Match!' : 'Welcome Back!'}
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400 font-medium leading-relaxed mb-8">
+                {isSignUp 
+                  ? 'Your learning account is ready. Please check your email and then sign in!' 
+                  : 'Preparing your personalized roadmap. Get ready for growth!'}
+              </p>
+              
+              <div className="flex justify-center items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-green-600/50">
+                <span className="w-8 h-[2px] bg-green-100" />
+                Setting up your growth space
+                <span className="w-8 h-[2px] bg-green-100" />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <SettingsFab />
     </div>
   );
 }

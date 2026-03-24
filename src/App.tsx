@@ -10,6 +10,7 @@ import { Portfolio } from './pages/main/Portfolio';
 import { Auth } from './pages/main/Auth';
 import { LandingPage } from './pages/landing/LandingPage';
 import { Onboarding } from './pages/main/Onboarding';
+import { LearningView } from './pages/main/LearningView';
 
 // Helper to protect routes requiring an active roadmap
 function RoadmapGuard() {
@@ -78,7 +79,7 @@ export default function App() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[hsl(var(--brand-muted))]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[hsl(var(--brand-primary))]"></div>
       </div>
     );
   }
@@ -99,6 +100,7 @@ export default function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/roadmap" element={<RoadmapView />} />
                 <Route path="/assistant" element={<Assistant />} />
+                <Route path="/learning/:taskId" element={<LearningView />} />
               </Route>
 
               <Route path="/portfolio" element={<Portfolio />} />

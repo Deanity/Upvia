@@ -73,10 +73,21 @@ export const db = {
     if (error) throw error;
   },
 
-  async completeModule(moduleId: string) {
+  async updateTaskMaterial(taskId: string, content: string, challenge: string) {
+    const { error } = await supabase
+      .from('tasks')
+      .update({ 
+        description: content,
+        challenge: challenge 
+      })
+      .eq('id', taskId);
+    if (error) throw error;
+  },
+
+  async setModuleCompletion(moduleId: string, isCompleted: boolean) {
     const { error } = await supabase
       .from('modules')
-      .update({ is_completed: true })
+      .update({ is_completed: isCompleted })
       .eq('id', moduleId);
     if (error) throw error;
   },

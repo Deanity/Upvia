@@ -14,81 +14,81 @@ import {
 } from 'lucide-react';
 
 export const navLinks = [
-  { name: 'Fitur', href: '#features' },
-  { name: 'Cara Kerja', href: '#how-it-works' },
-  { name: 'Target Pengguna', href: '#users' },
-  { name: 'Nilai Kami', href: '#values' },
+  { name: 'Features', href: '#features' },
+  { name: 'How It Works', href: '#how-it-works' },
+  { name: 'Users', href: '#users' },
+  { name: 'Our Values', href: '#values' },
 ];
 
 export const features = [
   {
-    title: "Peta Jalan Belajar AI-Dinamis",
-    description: "Jalur belajar langkah-demi-langkah yang dipersonalisasi dengan tujuan harian/mingguan dan tantangan yang dirancang khusus untuk Anda.",
+    title: "AI-Powered Learning Roadmap",
+    description: "Personalized step-by-step learning path with daily/weekly goals and tailored challenges.",
     icon: <Layers className="w-6 h-6" />,
     color: "bg-green-100 text-green-600"
   },
   {
-    title: "Asisten Belajar AI (24/7)",
-    description: "Tutor pribadi Anda untuk menjawab pertanyaan, membantu debugging, dan menyederhanakan topik kompleks secara real-time.",
+    title: "AI Learning Assistant (24/7)",
+    description: "Your personal tutor to answer questions, help debugging, and simplify complex topics in real-time.",
     icon: <Brain className="w-6 h-6" />,
     color: "bg-emerald-100 text-emerald-600"
   },
   {
-    title: "Antarmuka Belajar Inklusif",
-    description: "UI aksesibel yang dirancang untuk semua orang, menampilkan navigasi yang sederhana dan ramah pengguna untuk pengalaman yang mulus.",
+    title: "Inclusive Learning Interface",
+    description: "Accessible UI designed for everyone with simple and user-friendly navigation.",
     icon: <Layout className="w-6 h-6" />,
     color: "bg-teal-100 text-teal-600"
   },
   {
     title: "Progressive Web App (PWA)",
-    description: "Dapat diinstal di perangkat apa pun dengan dukungan offline dan penggunaan data rendah, sehingga Anda bisa belajar di mana saja.",
+    description: "Installable on any device with offline support and low data usage.",
     icon: <Download className="w-6 h-6" />,
     color: "bg-green-50 text-emerald-500"
   },
   {
-    title: "Dasbor Cerdas & Portofolio",
-    description: "Lacak kemajuan Anda, simpan proyek Anda, dan bangun portofolio profesional saat Anda belajar.",
+    title: "Smart Dashboard & Portfolio",
+    description: "Track your progress, save your projects, and build a professional portfolio.",
     icon: <PieChart className="w-6 h-6" />,
     color: "bg-emerald-50 text-teal-600"
   }
 ];
 
 export const steps = [
-  { title: "Tentukan tujuan Anda", description: "Beri tahu Upvia apa yang ingin Anda capai" },
-  { title: "AI menganalisis level Anda", description: "Kami memahami pengetahuan Anda saat ini" },
-  { title: "Hasilkan peta jalan", description: "Dapatkan jalur belajar yang dipersonalisasi" },
-  { title: "Mulai belajar", description: "Selami modul berukuran kecil" },
-  { title: "Selesaikan tantangan", description: "Validasi keterampilan Anda dengan tugas" },
-  { title: "Bangun portofolio Anda", description: "Pamerkan karya Anda kepada dunia" }
+  { title: "Set your goal", description: "Tell Upvia what you want to achieve" },
+  { title: "AI analyzes your level", description: "We understand your current knowledge" },
+  { title: "Generate roadmap", description: "Get your personalized learning path" },
+  { title: "Start learning", description: "Dive into bite-sized modules" },
+  { title: "Complete challenges", description: "Validate your skills with tasks" },
+  { title: "Build your portfolio", description: "Showcase your work to the world" }
 ];
 
 export const targetUsers = [
   { 
-    type: "Siswa SMA", 
-    description: "Fondasi untuk karier masa depan dan persiapan ujian.",
+    type: "High School Students", 
+    description: "Build a strong foundation for future careers and exams.",
     icon: <BookOpen className="w-8 h-8" />
   },
   { 
-    type: "Siswa SMK", 
-    description: "Keterampilan praktis untuk kesiapan industri segera.",
+    type: "Vocational Students", 
+    description: "Practical skills for immediate industry readiness.",
     icon: <Zap className="w-8 h-8" />
   },
   { 
-    type: "Mahasiswa", 
-    description: "Pendalaman bidang khusus dan penelitian.",
+    type: "University Students", 
+    description: "Deepen specialization and research.",
     icon: <GraduationCap className="w-8 h-8" />
   },
   { 
-    type: "Pembelajar Mandiri", 
-    description: "Jalur yang dikurasi untuk hobi atau perpindahan profesional apa pun.",
+    type: "Self Learners", 
+    description: "Curated paths for hobbies or career switching.",
     icon: <Users className="w-8 h-8" />
   }
 ];
 
 export const valuesList = [
-  { title: "Pembelajaran Personalisasi", icon: <Target className="w-5 h-5" /> },
-  { title: "Topik Fleksibel", icon: <Layers className="w-5 h-5" /> },
-  { title: "Sistem Berbasis AI", icon: <Brain className="w-5 h-5" /> },
-  { title: "Akses Inklusif", icon: <Layout className="w-5 h-5" /> },
-  { title: "Output Siap Karier", icon: <Briefcase className="w-5 h-5" /> }
+  { title: "Personalized Learning", icon: <Target className="w-5 h-5" /> },
+  { title: "Flexible Topics", icon: <Layers className="w-5 h-5" /> },
+  { title: "AI-Powered System", icon: <Brain className="w-5 h-5" /> },
+  { title: "Inclusive Access", icon: <Layout className="w-5 h-5" /> },
+  { title: "Career-Ready Output", icon: <Briefcase className="w-5 h-5" /> }
 ];

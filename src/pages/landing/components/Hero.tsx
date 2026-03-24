@@ -17,21 +17,18 @@ export const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
             </span>
-            Belajar Berbasis AI
+            AI-POWERED LEARNING
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] mb-6">
-            Dari <span className="text-[hsl(var(--brand-primary))]">Kebingungan</span> Menuju Kejelasan dalam Belajar
+          <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.1] mb-6 text-gray-900 dark:text-white transition-colors">
+            From <span className="text-[hsl(var(--brand-primary))]">Confusion</span> to Clarity in Learning
           </h1>
-          <p className="text-lg text-gray-600 mb-8 max-w-lg leading-relaxed">
-            Upvia membantu Anda tumbuh di bidang apa pun dengan peta jalan belajar berbasis AI yang dipersonalisasi. Mentor cerdas Anda untuk pertumbuhan berkelanjutan.
+          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-lg leading-relaxed transition-colors">
+            Upvia helps you grow in any field with personalized AI-powered learning paths. Your smart mentor for continuous growth.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link to="/auth" className="btn-primary flex items-center gap-2 group">
-              Mulai Sekarang <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Get Started <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <button className="px-6 py-3 rounded-xl font-bold bg-white text-gray-700 hover:bg-gray-50 transition-colors premium-shadow border border-gray-100">
-              Coba Demo
-            </button>
           </div>
         </motion.div>
 
@@ -41,39 +38,39 @@ export const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative"
         >
-          <div className="glass-card p-4 rounded-3xl relative z-10 animate-float translate-x-4">
+          <div className="glass-card bg-white/70 dark:bg-gray-900/70 p-4 rounded-3xl relative z-10 animate-float translate-x-4 border border-white/20 dark:border-white/5 transition-colors">
             <div className="flex items-center justify-between mb-4 px-2">
               <div className="flex gap-1.5">
                 <div className="w-3 h-3 rounded-full bg-red-400"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
                 <div className="w-3 h-3 rounded-full bg-green-400"></div>
               </div>
-              <div className="text-xs font-bold text-gray-400">JALUR BELAJAR AI</div>
+              <div className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">AI LEARNING PATH</div>
             </div>
             <div className="space-y-3">
-              <div className="p-3 bg-green-50 rounded-2xl border border-green-100 flex items-center gap-3">
+              <div className="p-3 bg-green-50 dark:bg-green-500/10 rounded-2xl border border-green-100 dark:border-green-500/20 flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
-                <div>
-                  <div className="text-sm font-bold">Pengantar Desain UI</div>
-                  <div className="h-1.5 w-full bg-green-200 rounded-full mt-1.5">
+                <div className="flex-1">
+                  <div className="text-sm font-bold text-gray-900 dark:text-white">Intro to UI Design</div>
+                  <div className="h-1.5 w-full bg-green-200 dark:bg-green-900 rounded-full mt-1.5">
                     <div className="h-full w-full bg-green-500 rounded-full"></div>
                   </div>
                 </div>
               </div>
-              <div className="p-3 bg-white/50 rounded-2xl border border-white flex items-center gap-3">
+              <div className="p-3 bg-white/50 dark:bg-gray-800/50 rounded-2xl border border-white dark:border-white/5 flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full border-2 border-green-500 text-green-500 flex items-center justify-center font-bold text-sm">2</div>
                 <div className="flex-1">
-                  <div className="text-sm font-bold text-gray-700">Dasar-Dasar Tipografi</div>
-                  <div className="h-1.5 w-32 bg-gray-100 rounded-full mt-1.5">
+                  <div className="text-sm font-bold text-gray-700 dark:text-gray-200">Typography Basics</div>
+                  <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-700 rounded-full mt-1.5">
                     <div className="h-full w-12 bg-green-500 rounded-full"></div>
                   </div>
                 </div>
               </div>
-              <div className="p-3 bg-white/50 rounded-2xl border border-white flex items-center gap-3 opacity-60">
-                <div className="w-8 h-8 rounded-full border-2 border-gray-300 text-gray-300 flex items-center justify-center font-bold text-sm">3</div>
-                <div className="text-sm font-bold text-gray-400">Sistem Tata Letak Lanjutan</div>
+              <div className="p-3 bg-white/50 dark:bg-gray-800/50 rounded-2xl border border-white dark:border-white/5 flex items-center gap-3 opacity-60">
+                <div className="w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-600 text-gray-300 dark:text-gray-600 flex items-center justify-center font-bold text-sm">3</div>
+                <div className="text-sm font-bold text-gray-400 dark:text-gray-500">Advanced Layout Systems</div>
               </div>
             </div>
           </div>

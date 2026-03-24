@@ -43,15 +43,15 @@ export function Onboarding() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-16 space-y-4"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 text-[hsl(var(--brand-primary))] rounded-full text-[10px] font-black uppercase tracking-widest mb-4 border border-green-100">
+        {/* <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 text-[hsl(var(--brand-primary))] rounded-full text-[10px] font-black uppercase tracking-widest mb-4 border border-green-100">
           <Sparkles className="w-4 h-4" />
-          Didukung oleh Gemini AI
-        </div>
-        <h1 className="text-5xl md:text-6xl font-black text-gray-900 mb-6 tracking-tighter leading-tight">
-          Apa yang ingin Anda <span className="text-[hsl(var(--brand-primary))]">kuasai</span> hari ini?
+          Powered by Gemini AI
+        </div> */}
+        <h1 className="text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tighter leading-tight transition-colors">
+          What do you want to <span className="text-[hsl(var(--brand-primary))]">master</span> today?
         </h1>
-        <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium">
-          Beri tahu ambisi Anda, dan AI kami akan merancang peta jalan terstruktur yang dipersonalisasi untuk membawa Anda dari nol hingga ahli.
+        <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-medium transition-colors">
+          Tell us your ambition, and our AI will architect a personalized, structured roadmap to take you from zero to expert.
         </p>
       </motion.div>
 
@@ -67,13 +67,13 @@ export function Onboarding() {
           <textarea
             value={goal}
             onChange={(e) => setGoal(e.target.value)}
-            placeholder="Contoh: Saya ingin menjadi Full Stack Developer kelas dunia yang ahli dalam React dan Sistem Terukur..."
-            className="relative w-full h-56 p-10 text-xl border border-green-100 rounded-[2rem] shadow-2xl focus:ring-4 focus:ring-green-50 outline-none resize-none transition-all placeholder:text-gray-300 font-medium bg-white/80 backdrop-blur-sm"
+            placeholder="e.g., I want to become a world-class Full Stack Developer specializing in React and Scalable Systems..."
+            className="relative w-full h-56 p-10 text-xl border border-green-100 dark:border-green-500/20 rounded-[2rem] shadow-2xl focus:ring-4 focus:ring-green-50 dark:focus:ring-green-500/10 outline-none resize-none transition-all placeholder:text-gray-300 dark:placeholder:text-gray-600 font-medium bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm text-gray-900 dark:text-white"
             disabled={loading}
           />
-          <div className="absolute bottom-6 right-8 text-gray-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+          <div className="absolute bottom-6 right-8 text-gray-400 dark:text-gray-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            AI Siap
+            AI Ready
           </div>
         </div>
 
@@ -85,12 +85,12 @@ export function Onboarding() {
           {loading ? (
             <>
               <Loader2 className="w-8 h-8 animate-spin" />
-              Merancang masa depan Anda...
+              Architecting your future...
             </>
           ) : (
             <>
               <Sparkles className="w-8 h-8" />
-              Buat Peta Jalan Saya
+              Generate My Path
               <ArrowRight className="w-6 h-6 ml-2" />
             </>
           )}
@@ -99,22 +99,22 @@ export function Onboarding() {
 
       <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
         {[
-          { icon: Target, title: 'Presisi', desc: 'Disesuaikan secara algoritmis dengan tingkat pengetahuan Anda saat ini.' },
-          { icon: Zap, title: 'Kecepatan', desc: 'Fokus hanya pada hal yang penting. Langsung ke pembangunan keterampilan.' },
-          { icon: Shield, title: 'Penguasaan', desc: 'Tantangan langkah demi langkah memastikan Anda benar-benar menguasai konsep.' },
+          { icon: Target, title: 'Precision', desc: 'Algorithmically tailored to your current knowledge level.' },
+          { icon: Zap, title: 'Speed', desc: 'Focus only on what matters. No fluff, just pure skill building.' },
+          { icon: Shield, title: 'Mastery', desc: 'Step-by-step challenges ensure you truly own every concept.' },
         ].map((item, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 + (i * 0.1) }}
-            className="glass-card bg-white/50 p-8 rounded-[2rem] border border-white/60 premium-shadow group hover:border-green-200 transition-all hover:translate-y-[-5px]"
+            className="glass-card bg-white/50 dark:bg-gray-900/50 p-8 rounded-[2rem] border border-white/60 dark:border-white/5 premium-shadow group hover:border-green-200 dark:hover:border-green-500/20 transition-all hover:translate-y-[-5px]"
           >
-            <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mb-6 border border-green-100 group-hover:scale-110 transition-transform shadow-sm">
+            <div className="w-14 h-14 bg-green-50 dark:bg-green-500/10 rounded-2xl flex items-center justify-center mb-6 border border-green-100 dark:border-green-500/20 group-hover:scale-110 transition-transform shadow-sm">
               <item.icon className="text-[hsl(var(--brand-primary))] w-7 h-7" />
             </div>
-            <h3 className="text-lg font-black text-gray-900 mb-3 tracking-tight">{item.title}</h3>
-            <p className="text-sm text-gray-500 leading-relaxed font-medium">{item.desc}</p>
+            <h3 className="text-lg font-black text-gray-900 dark:text-white mb-3 tracking-tight">{item.title}</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-medium">{item.desc}</p>
           </motion.div>
         ))}
       </div>

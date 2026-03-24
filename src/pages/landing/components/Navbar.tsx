@@ -24,23 +24,23 @@ export const Navbar = () => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="text-sm font-medium hover:text-[hsl(var(--brand-primary))] transition-colors">
+            <a key={link.name} href={link.href} className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[hsl(var(--brand-primary))] transition-colors">
               {link.name}
             </a>
           ))}
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          <Link to="/auth" className="text-sm font-semibold hover:text-[hsl(var(--brand-primary))] transition-colors">
-            Masuk
+          <Link to="/auth" className="text-sm font-semibold text-gray-700 dark:text-gray-200 hover:text-[hsl(var(--brand-primary))] transition-colors">
+            Login
           </Link>
           <Link to="/auth" className="btn-primary py-2 px-5 text-sm">
-            Mulai Sekarang
+            Get Started
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button className="md:hidden text-gray-900 dark:text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
@@ -50,21 +50,21 @@ export const Navbar = () => {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden mt-4 glass-card p-6 rounded-2xl flex flex-col gap-4 shadow-2xl"
+          className="md:hidden mt-4 glass-card bg-white/90 dark:bg-gray-900/90 p-6 rounded-2xl flex flex-col gap-4 shadow-2xl transition-colors"
         >
           {navLinks.map((link) => (
             <a 
               key={link.name} 
               href={link.href} 
-              className="text-lg font-medium"
+              className="text-lg font-medium text-gray-900 dark:text-white"
               onClick={() => setIsMenuOpen(false)}
             >
               {link.name}
             </a>
           ))}
-          <hr className="border-green-100" />
-          <Link to="/auth" className="text-lg font-medium">Masuk</Link>
-          <Link to="/auth" className="btn-primary text-center">Mulai Sekarang</Link>
+          <hr className="border-green-100 dark:border-white/5" />
+          <Link to="/auth" className="text-lg font-medium text-gray-900 dark:text-white">Login</Link>
+          <Link to="/auth" className="btn-primary text-center">Get Started</Link>
         </motion.div>
       )}
     </nav>
