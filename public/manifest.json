@@ -1,21 +1,27 @@
 {
-  "name": "EduChain",
-  "short_name": "EduChain",
-  "description": "AI-driven learning platform.",
+  "name": "Upvia AI Learning",
+  "short_name": "Upvia",
+  "description": "Platform Belajar AI Personalisasi & Roadmap Pintar.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#4f46e5",
+  "theme_color": "#15803d",
   "icons": [
     {
-      "src": "https://picsum.photos/seed/educhain/192/192",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "https://picsum.photos/seed/educhain/512/512",
+      "src": "/logo.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/logo.svg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/svg+xml"
     }
   ]
 }
