@@ -13,14 +13,14 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://upvia.ai/" />
+    <meta property="og:url" content="https://upvia.vercel.app/" />
     <meta property="og:title" content="Upvia - AI-Powered Personalized Learning" />
     <meta property="og:description" content="Optimize your learning journey with AI-driven roadmaps and interactive exercises." />
     <meta property="og:image" content="/logo.svg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://upvia.ai/" />
+    <meta property="twitter:url" content="https://upvia.vercel.app/" />
     <meta property="twitter:title" content="Upvia - AI-Powered Personalized Learning" />
     <meta property="twitter:description" content="Optimize your learning journey with AI-driven roadmaps and interactive exercises." />
     <meta property="twitter:image" content="/logo.svg" />
@@ -32,11 +32,20 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
+      // Force Clear Service Workers & Cache on Load
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
           for (let registration of registrations) {
             registration.unregister();
+            console.log('Service Worker Unregistered');
           }
+        });
+      }
+      
+      // Clear Cache Storage if any (PWA stuff)
+      if (window.caches) {
+        caches.keys().then(function(names) {
+          for (let name of names) caches.delete(name);
         });
       }
     </script>
