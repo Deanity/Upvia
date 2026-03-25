@@ -40,7 +40,7 @@ export function MainNavbar() {
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2">
           <img src={logo} alt="Upvia Logo" className="w-10 h-10 object-contain" />
-          <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">Upvia</span>
+          {/* <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">Upvia</span> */}
         </NavLink>
 
         {/* Desktop Links */}
