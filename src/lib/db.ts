@@ -11,7 +11,7 @@ export const db = {
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
-    
+
     if (error) throw error;
     return data;
   },
@@ -76,9 +76,9 @@ export const db = {
   async updateTaskMaterial(taskId: string, content: string, challenge: string) {
     const { error } = await supabase
       .from('tasks')
-      .update({ 
+      .update({
         description: content,
-        challenge: challenge 
+        challenge: challenge
       })
       .eq('id', taskId);
     if (error) throw error;
@@ -126,6 +126,45 @@ export const db = {
       .select('*')
       .eq('user_id', userId)
       .order('completed_at', { ascending: false });
+    if (error) throw error;
+    return data;
+  },
+
+  async saveExerciseScore(
+    userId: string,
+    taskId: string,
+    score: number,
+    totalQuestions: number,
+    correctAnswers: number,
+    wrongAnswers: number,
+    answersHistory: any
+  ) {
+    const { data, error } = await supabase
+      .from('exercise_scores')
+      .insert({
+        user_id: userId,
+        task_id: taskId,
+        score,
+        total_questions: totalQuestions,
+        correct_answers: correctAnswers,
+        wrong_answers: wrongAnswers,
+        answers_history: answersHistory
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return data;
+  },
+
+  async getExerciseScore(userId: string, taskId: string) {
+    const { data, error } = await supabase
+      .from('exercise_scores')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('task_id', taskId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
     if (error) throw error;
     return data;
   }

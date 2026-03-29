@@ -23,17 +23,14 @@
   <script type="module" defer src="/src/main.tsx"></script>
 
   <script>
-    // Auto clear cache & service workers (development mode)
     (async function(){
       if ('serviceWorker' in navigator) {
         const regs = await navigator.serviceWorker.getRegistrations();
         regs.forEach(r => r.unregister());
-        console.log('SW unregistered');
       }
       if (window.caches) {
         const keys = await caches.keys();
         keys.forEach(k => caches.delete(k));
-        console.log('Caches cleared');
       }
     })();
   </script>

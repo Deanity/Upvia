@@ -12,7 +12,6 @@ import { LandingPage } from './pages/landing/LandingPage';
 import { Onboarding } from './pages/main/Onboarding';
 import { LearningView } from './pages/main/LearningView';
 
-// Helper to protect routes requiring an active roadmap
 function RoadmapGuard() {
   const [hasRoadmap, setHasRoadmap] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,7 +37,6 @@ function RoadmapGuard() {
   return <Outlet />;
 }
 
-// Helper to prevent users with roadmap from re-onboarding
 function OnboardingGuard() {
   const [hasRoadmap, setHasRoadmap] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);

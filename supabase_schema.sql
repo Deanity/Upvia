@@ -46,11 +46,25 @@ CREATE TABLE portfolio (
   completed_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- 5. Exercise Scores Table
+CREATE TABLE exercise_scores (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  task_id UUID REFERENCES tasks(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  score INTEGER NOT NULL,
+  total_questions INTEGER NOT NULL,
+  correct_answers INTEGER NOT NULL,
+  wrong_answers INTEGER NOT NULL,
+  answers_history JSONB, 
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 -- Enable RLS
 ALTER TABLE roadmaps ENABLE ROW LEVEL SECURITY;
 ALTER TABLE modules ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE portfolio ENABLE ROW LEVEL SECURITY;
+ALTER TABLE exercise_scores ENABLE ROW LEVEL SECURITY;
 
 -- Policies
 CREATE POLICY "Users can manage their own roadmaps" ON roadmaps FOR ALL USING (auth.uid() = user_id);
@@ -61,3 +75,5 @@ CREATE POLICY "Users can manage their own tasks" ON tasks FOR ALL USING (
   EXISTS (SELECT 1 FROM modules JOIN roadmaps ON modules.roadmap_id = roadmaps.id WHERE modules.id = tasks.module_id AND roadmaps.user_id = auth.uid())
 );
 CREATE POLICY "Users can manage their own portfolio" ON portfolio FOR ALL USING (auth.uid() = user_id);
+CREATE POLICY "Users can manage their own exercise scores" ON exercise_scores FOR ALL USING (auth.uid() = user_id);
+

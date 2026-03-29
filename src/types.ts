@@ -43,3 +43,15 @@ export interface PortfolioItem {
   summary: string;
   completed_at: string;
 }
+
+export interface ExerciseScore {
+  id: string;
+  task_id: string;
+  user_id: string;
+  score: number;
+  total_questions: number;
+  correct_answers: number;
+  wrong_answers: number;
+  answers_history: any;
+  created_at: string;
+}
