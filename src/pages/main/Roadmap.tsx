@@ -18,8 +18,31 @@ export function RoadmapView() {
     if (user) {
       const data = await db.getActiveRoadmap(user.id);
       if (data) {
-        setRoadmap(data);
         const sortedModules = [...data.modules].sort((a: any, b: any) => a.order_index - b.order_index);
+        
+        // Auto-heal logic: check if any module is fully completed but not marked as completed in DB,
+        // or if the next module is still locked.
+        for (let i = 0; i < sortedModules.length; i++) {
+          const module = sortedModules[i];
+          const allTasksCompleted = module.tasks.length > 0 && module.tasks.every((t: any) => t.is_completed);
+          
+          if (allTasksCompleted) {
+            if (!module.is_completed) {
+              await db.setModuleCompletion(module.id, true);
+              module.is_completed = true;
+            }
+            
+            if (i < sortedModules.length - 1) {
+              const nextModule = sortedModules[i + 1];
+              if (nextModule.is_locked) {
+                await db.unlockNextModule(data.id, module.order_index);
+                nextModule.is_locked = false;
+              }
+            }
+          }
+        }
+
+        setRoadmap(data);
         const active = sortedModules.find((m: any) => !m.is_completed && !m.is_locked);
         if (active) setExpandedModule(active.id);
       }

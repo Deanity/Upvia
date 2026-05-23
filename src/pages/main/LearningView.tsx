@@ -100,6 +100,25 @@ export function LearningView() {
   const handleCompleteTask = async (shouldNavigate = true) => {
     if (!task.is_completed) {
       await db.toggleTaskCompletion(task.id, true);
+      
+      if (roadmap) {
+        // Find the module that contains this task
+        const currentModule = roadmap.modules.find((m: any) => m.title === task.moduleTitle);
+        if (currentModule) {
+          // Update the local task status to check for completion
+          const updatedTasks = currentModule.tasks.map((t: any) => 
+            t.id === task.id ? { ...t, is_completed: true } : t
+          );
+          const allTasksCompleted = updatedTasks.length > 0 && updatedTasks.every((t: any) => t.is_completed);
+          
+          if (allTasksCompleted) {
+            await db.setModuleCompletion(currentModule.id, true);
+            if (currentModule.order_index < roadmap.modules.length - 1) {
+              await db.unlockNextModule(roadmap.id, currentModule.order_index);
+            }
+          }
+        }
+      }
     }
     if (shouldNavigate) {
       navigate('/roadmap');
